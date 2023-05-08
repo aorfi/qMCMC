@@ -2,7 +2,6 @@ using LaTeXStrings
 using PythonCall
 plt = pyimport("matplotlib.pyplot")
 using JLD2
-using LsqFit
 cd(pwd, "../..")
 
 
