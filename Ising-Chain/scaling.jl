@@ -1,6 +1,7 @@
 using Arpack
 using JLD2
 using Statistics
+using GLM
 
 include("ising_hamiltonian.jl")
 include("../classical_P.jl")
@@ -46,7 +47,7 @@ beta = 5
 # save_object("Data/Ising-Chain/Classical/MHLocScaling", gap_MH_loc)
 
 
-num_q = length(N_values[1:end-6])
+num_q = length(N_values[1:end-5])
 gap_av = zeros(num_q,2)
 gap_qHMC = zeros(num_q)
 

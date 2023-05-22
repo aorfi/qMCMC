@@ -15,7 +15,6 @@ for i in (1:length(N_values))
     num_values = 300
     kappa_values = range(0,50, length=num_values)
     eta_values = range(0,50, length=num_values)
-
     gap_all = zeros(num_values,num_values)
     for kappa_i in (1:num_values)
         println("kappa: ", kappa_i)
@@ -30,3 +29,4 @@ for i in (1:length(N_values))
     name = "Data/Ising-Chain/qMCMC/Grid-Search/"*string(num_values)*"N"*string(N)*"beta"*string(beta)
     save_object(name, gap_all)
 end
+

@@ -12,7 +12,8 @@ include("../classical_P.jl")
 include("../quantum_P.jl")
 include("../conductance.jl")
 
-N = 4
+beta = 5
+N = 2
 h = 0
 couplings = ones(N)
 # couplings[end] = 0
@@ -21,33 +22,11 @@ H = ising_ham(N, couplings, h)
 energies = [H[i,i] for i in (1:2^N)]
 println("energies: ", energies)
 # display(counter(energies))
-beta = 1
+
 Z = sum([exp(-beta*e) for e in energies])
-println("Z ", Z)
-# println(2*(2*cosh(beta))^(N-1))
-# println((2cosh(beta))^N+(2sinh(beta))^N)
-
-
-# # beta = 1
-# # gs = normalize(exp.(-(beta*energies)))
-# gs = zeros(2^N)
-# gs[1] = 1
-# # gs[end] = 1
-# indicies = []
-# mixed = mixing_ham(N)*gs
-# for i in (1:2^N)
-#     if mixed[i] ==1
-#         append!(indicies,i)
-#     end
-# end
-# mixed_energies = H*(mixing_ham(N)*gs)
-# # println(indicies)
-# # println(mixing_ham(N)*gs)
-# # println(H*(mixing_ham(N)*gs))
-# for i in indicies
-#     println(mixed_energies[i])
-# end
-
+gs = exp.(-(beta*energies))/Z
+# println(gs)
+# println(normalize(exp.(-(beta*energies))))
 
 
 
@@ -56,26 +35,29 @@ println("Z ", Z)
 
 # # Check construction of P matrices
 
-# P_glab = glab_uniform(N,H, beta)
-# eg,vg = eigen(Matrix(transpose(P_glab )))
-# # overlap of steady state
-# println("Overlap Glauber: ",dot(gs,vg[:,end]))
-# gapg = abs(1-abs(eg[end-1]))
-# println("Gap glaub: ", gapg)
+P_glab = glab_uniform(N,H, beta)
+# check steady state
+println("gs*P - gs: ",transpose(gs)*P_glab - transpose(gs))
+eg,vg = eigen(Matrix(transpose(P_glab)))
+gapg = abs(1-abs(eg[end-1]))
+println("Gap glaub: ", gapg)
 
-# P_MH = MH_local(N,H, beta)
-# eMH,vMH = eigen(Matrix(transpose(P_MH)))
-# println("overlap MH: ",dot(gs,vMH[:,end]))
-# gapMH = abs(1-abs(eMH[end-1]))
-# println("Gap MH: ", gapMH)
+P_MH = MH_local(N,H, beta)
+println("gs*P - gs: ",transpose(gs)*P_MH - transpose(gs))
+eMH,vMH = eigen(Matrix(transpose(P_MH)))
+gapMH = abs(1-abs(eMH[end-1]))
+println("Gap MH: ", gapMH)
 
-# α = 2
-# η = 3
-# Hm = mixing_ham(N) 
-# P_qHMC = mixing_qHMC(N, H,α,η,beta, Hm)
-# eqHMC,vqHMC  = eigen(Matrix(transpose(P_qHMC)))
-# eq,vq = eigen(Matrix(P_qHMC))
-# println("overlap qHMC: ",dot(gs,vqHMC[:,end]))
-# gap = abs(1-abs(eqHMC[end-1]))
-# println("Gap qHMC: ", gap)
+κ = 2
+η = 3
+Hm = mixing_ham(N) 
+P_qHMC = mixing_qHMC(N, H,κ,η,beta, Hm)
+println("gs*P - gs: ",transpose(gs)*P_qHMC - transpose(gs))
+eqHMC,vqHMC  = eigen(Matrix(transpose(P_qHMC)))
+gap = abs(1-abs(eqHMC[end-1]))
+println("Gap qHMC: ", gap)
 
+
+ratio = norm(real.(Matrix(Hm)),2)/norm(real.(Matrix(H)), 2)
+H_a = κ*ratio*H+η*Hm
+display(Matrix(exp(-1im*Matrix(H_a))))

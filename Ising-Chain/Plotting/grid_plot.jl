@@ -3,14 +3,14 @@ plt = pyimport("matplotlib.pyplot")
 using LaTeXStrings
 using JLD2
 
-N = 8
+N = 9
 beta = 5
 num_values = 300
 
 name = "Data/Ising-Chain/qMCMC/Grid-Search/"*string(num_values)*"N"*string(N)*"beta"*string(beta)
 gap_all= load_object(name)
 
-# max_param = 50
+max_param = 50
 # max,cord = findmax(gap_all)
 # println((cord[2]-1)/num_values*max_param)
 # println((cord[1]-1)/num_values*max_param)
