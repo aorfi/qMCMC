@@ -3,35 +3,21 @@ using SparseArrays
 using Arpack
 using JLD2
 using Random, Distributions
-using PythonCall
-using DataStructures
-plt = pyimport("matplotlib.pyplot")
 
-include("ising_hamiltonian.jl")
+include("SK_hamiltonian.jl")
 include("../classical_P.jl")
 include("../quantum_P.jl")
 include("../conductance.jl")
 
 beta = 5
-N = 2
-h = 0
-couplings = ones(N)
-# couplings[end] = 0
-H = ising_ham(N, couplings, h)
-# display(Matrix(H))
+N = 3
+h = rand(Normal(0,1),N)
+couplings = rand(Normal(0,1),sum(1:N-1))
+H = SK_ham(N,couplings,h)
 energies = [H[i,i] for i in (1:2^N)]
 println("energies: ", energies)
-# display(counter(energies))
-
 Z = sum([exp(-beta*e) for e in energies])
 gs = exp.(-(beta*energies))/Z
-# println(gs)
-# println(normalize(exp.(-(beta*energies))))
-
-
-
-
-
 
 # # Check construction of P matrices
 
@@ -56,4 +42,3 @@ println("gs*P - gs: ",transpose(gs)*P_qHMC - transpose(gs))
 eqHMC,vqHMC  = eigen(Matrix(transpose(P_qHMC)))
 gap = abs(1-abs(eqHMC[end-1]))
 println("Gap qHMC: ", gap)
-
