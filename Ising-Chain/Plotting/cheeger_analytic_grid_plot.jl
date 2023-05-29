@@ -6,7 +6,7 @@ using JLD2
 include("../Cheeger/cheeger_analytic.jl")
 
 
-N = 50
+N = 6
 uniform_gap = 2.0^(-N+1)
 println("Uniform Gap ", uniform_gap )
 beta = 5

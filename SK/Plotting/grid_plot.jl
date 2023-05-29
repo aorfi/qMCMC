@@ -4,9 +4,9 @@ using LaTeXStrings
 using JLD2
 using Statistics
 
-N = 4
+N = 7
 beta = 5
-num_values = 10
+num_values = 300
 
 name = "Data/SK/qMCMC/Grid-Search/"*string(num_values)*"N"*string(N)*"beta"*string(beta)
 gap_all= load_object(name)
@@ -25,13 +25,14 @@ max_param = 50
 
 # plt.title(L"qHMC Gap Ising $\beta=$ "*string(beta)*" N = "*string(N))
 plt.imshow(gap_av, origin="lower",extent = [0, max_param  , 0, max_param ],aspect="auto")
+# plt.imshow(gap_all[:,:,3], origin="lower",extent = [0, max_param  , 0, max_param ],aspect="auto")
 # plt.clim(0, 0.1) 
 bar = plt.colorbar()
 # plt.scatter((cord[2]-1)/num_values*max_param, (cord[1]-1)/num_values*max_param, color="red", marker=".")
 
 plt.xlabel(L"$\eta$")
 plt.ylabel(L"$\kappa$")
-bar.set_label(L"$\delta$")
-# name = "Figures/Ising-Chain/qMCMC/GridSearch/"*string(num_values)*"N"*string(N)*"beta"*string(beta)*".svg"
+bar.set_label(L"Average $\delta$")
+# name = "Figures/SK/qMCMC/GridSearch/"*string(num_values)*"N"*string(N)*"beta"*string(beta)*".svg"
 # plt.savefig(name)
 plt.show()

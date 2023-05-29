@@ -62,8 +62,10 @@ for i in (1:num_q )
     gap_all= load_object(name)
     max,cord = findmax(gap_all)
     gap_qHMC[i] = max
-    gap_av[i,1] = mean(gap_all)
-    gap_av[i,2] = stdm(gap_all, mean(gap_all))
+    log_data = -log.(1 .- gap_all)
+    st_dev = stdm(log_data,mean(log_data))
+    gap_av[i,1] = mean(log_data)
+    gap_av[i,2] = st_dev
 end
 save_object("Data/Ising-Chain/qMCMC/AverageGapScaling", gap_av)
 save_object("Data/Ising-Chain/qMCMC/LargestGapScaling", gap_qHMC)

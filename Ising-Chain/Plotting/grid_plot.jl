@@ -2,10 +2,11 @@ using PythonCall
 plt = pyimport("matplotlib.pyplot")
 using LaTeXStrings
 using JLD2
+using Statistics
 
-N = 9
-beta = 5
-num_values = 300
+N = 8
+beta = 1000.0
+num_values = 50
 
 name = "Data/Ising-Chain/qMCMC/Grid-Search/"*string(num_values)*"N"*string(N)*"beta"*string(beta)
 gap_all= load_object(name)
@@ -25,6 +26,27 @@ bar = plt.colorbar()
 plt.xlabel(L"$\eta$")
 plt.ylabel(L"$\kappa$")
 bar.set_label(L"$\delta$")
-name = "Figures/Ising-Chain/qMCMC/GridSearch/"*string(num_values)*"N"*string(N)*"beta"*string(beta)*".svg"
-plt.savefig(name)
+# name = "Figures/Ising-Chain/qMCMC/GridSearch/"*string(num_values)*"N"*string(N)*"beta"*string(beta)*".svg"
+# plt.savefig(name)
 plt.show()
+
+
+
+# name = "Data/Ising-Chain/qMCMC/Grid-Search/Temperature/"*string(num_values)*"N"*string(N)*"beta"*string(beta)
+# gap_all= load_object(name)
+# log_data = -log.(1 .- gap_all)
+# m = mean(log_data)
+# st_dev = stdm(log_data,mean(log_data))
+# st_err = st_dev/sqrt(length(log_data))
+# lb = exp(log(m)-st_dev)
+# ub = exp(log(m)+st_dev)
+
+# plt.hist(vcat(gap_all...), bins = 100)
+# plt.axvline(m, color= "black", label = "Average ")
+# # plt.axvline(m+st_dev, color= "black", label = "Average ")
+# # plt.axvline(m-st_dev, color= "black", label = "Average ")
+# plt.axvline(lb, color= "red")
+# plt.axvline(ub, color= "red")
+# plt.xlabel(L"$\delta$")
+# plt.legend()
+# plt.show()

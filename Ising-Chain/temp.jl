@@ -14,19 +14,19 @@ H = ising_ham(N, couplings, h)
 num_points = 50
 temp = 10 .^ (range(-3,stop=3,length=num_points))
 beta_values = 1 ./ temp
-gap_MH = zeros(num_points)
-gap_MH_loc = zeros(num_points)
-for (j,beta) in pairs(beta_values)
-    println(" Working on T = ", temp[j])
-    P_MH_uniform = MH_uniform(N,H, beta)
-    e,v  = eigs(P_MH_uniform, nev = 2, which=:LM)
-    gap_MH[j] = abs(1-abs(e[2]))
-    P_MH_loc = MH_local(N,H, beta)
-    e,v  = eigs(P_MH_loc, nev = 2, which=:LM)
-    gap_MH_loc[j] = abs(1-abs(e[2]))
-end
-save_object("Data/Ising-Chain/Classical/N"*string(N)*"MHUniformTemp", gap_MH)
-save_object("Data/Ising-Chain/Classical/N"*string(N)*"MHLocTemp", gap_MH_loc)
+# gap_MH = zeros(num_points)
+# gap_MH_loc = zeros(num_points)
+# for (j,beta) in pairs(beta_values)
+#     println(" Working on T = ", temp[j])
+#     P_MH_uniform = MH_uniform(N,H, beta)
+#     e,v  = eigs(P_MH_uniform, nev = 2, which=:LM)
+#     gap_MH[j] = abs(1-abs(e[2]))
+#     P_MH_loc = MH_local(N,H, beta)
+#     e,v  = eigs(P_MH_loc, nev = 2, which=:LM)
+#     gap_MH_loc[j] = abs(1-abs(e[2]))
+# end
+# save_object("Data/Ising-Chain/Classical/N"*string(N)*"MHUniformTemp", gap_MH)
+# save_object("Data/Ising-Chain/Classical/N"*string(N)*"MHLocTemp", gap_MH_loc)
 
 
 # get temperature data
@@ -64,8 +64,10 @@ for (i,beta) in pairs(beta_values)
     gap_all= load_object(name)
     max,cord = findmax(gap_all)
     gap_best[i] = max
-    gap_av[i,1] = mean(gap_all)
-    gap_av[i,2] = stdm(gap_all, mean(gap_all))
+    log_data = -log.(1 .- gap_all)
+    st_dev = stdm(log_data,mean(log_data))
+    gap_av[i,1] = mean(log_data)
+    gap_av[i,2] = st_dev
 end
 
 save_object("Data/Ising-Chain/qMCMC/N"*string(N)*"AverageTemp", gap_av)

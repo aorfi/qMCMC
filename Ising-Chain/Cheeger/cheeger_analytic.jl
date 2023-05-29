@@ -85,34 +85,34 @@ end
 # println("Phi analytic ", one_ground_state(N,κ,η))
 
 
-N_values = (50:4:150)
-phi_N = zeros(length(N_values),2)
-for i in (1:length(N_values))
-    N = N_values[i]
-    println("N: ", N)
-    beta = 5
-    num_values = 100
-    # kappa_values = range(10,50, length=num_values)
-    # eta_values = range(10,50, length=num_values)
-    kappa_values = [10]
-    eta_values =[40]
-    phi = zeros(length(kappa_values),length(eta_values))
-    for kappa_i in (1:length(kappa_values))
-        # println("kappa: ", kappa_i)
-        for eta_i in (1:length(eta_values))
-            # println("  eta: ", eta_i)
-            # if eta_values[eta_i]>(kappa_values[kappa_i])
-                phi_1 = all_but_ground_states(N,kappa_values[kappa_i],eta_values[eta_i])
-                phi_2 = one_ground_state(N,kappa_values[kappa_i],eta_values[eta_i])
-                phi[kappa_i,eta_i] = min(phi_1,phi_2)
-            # end
-        end
-    end
-    phi_N[i,1] = mean(phi)
-    phi_N[i,2] = stdm(phi, mean(phi))
-end
-println(phi_N[:,1])
-# name = "Data/Ising-Chain/qMCMC/Cheeger/AverageBottleneckScaling"
-# name = "Data/Ising-Chain/qMCMC/Cheeger/LowerHalfBottleneckScaling"
-name = "Data/Ising-Chain/qMCMC/Cheeger/BottleneckScalingEta40Kappa20"
-save_object(name, phi_N)
+# N_values = (50:4:150)
+# phi_N = zeros(length(N_values),2)
+# for i in (1:length(N_values))
+#     N = N_values[i]
+#     println("N: ", N)
+#     beta = 5
+#     num_values = 100
+#     # kappa_values = range(10,50, length=num_values)
+#     # eta_values = range(10,50, length=num_values)
+#     kappa_values = [10]
+#     eta_values =[40]
+#     phi = zeros(length(kappa_values),length(eta_values))
+#     for kappa_i in (1:length(kappa_values))
+#         # println("kappa: ", kappa_i)
+#         for eta_i in (1:length(eta_values))
+#             # println("  eta: ", eta_i)
+#             # if eta_values[eta_i]>(kappa_values[kappa_i])
+#                 phi_1 = all_but_ground_states(N,kappa_values[kappa_i],eta_values[eta_i])
+#                 phi_2 = one_ground_state(N,kappa_values[kappa_i],eta_values[eta_i])
+#                 phi[kappa_i,eta_i] = min(phi_1,phi_2)
+#             # end
+#         end
+#     end
+#     phi_N[i,1] = mean(phi)
+#     phi_N[i,2] = stdm(phi, mean(phi))
+# end
+# println(phi_N[:,1])
+# # name = "Data/Ising-Chain/qMCMC/Cheeger/AverageBottleneckScaling"
+# # name = "Data/Ising-Chain/qMCMC/Cheeger/LowerHalfBottleneckScaling"
+# name = "Data/Ising-Chain/qMCMC/Cheeger/BottleneckScalingEta40Kappa20"
+# save_object(name, phi_N)
